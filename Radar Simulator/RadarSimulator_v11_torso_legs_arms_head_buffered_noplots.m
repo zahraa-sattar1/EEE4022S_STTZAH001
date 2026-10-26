@@ -1,5 +1,8 @@
-% Simulate 24GHz CW radar returns from a walking person.
-% Uses Boulic kinematics and Chen amplitude weighting.
+%% Walking radar simulator
+% Zahraa Sattar | EEE4022S
+%
+% Generate 24GHz CW radar returns from the moving torso, legs, arms and head.
+% Joint motion follows the walking model, with stationary buffers and adjustable noise.
 
 clear all;
 close all;
