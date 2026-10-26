@@ -56,11 +56,11 @@ if ~exist('c','var')
     c = 299792458;   % fallback only if LoadRealRecording didn't set it
 end
 
-%% Ground truth (SET THIS for whichever recording you're running)
+
 groundTruthStrideDuration_s = 1.83;   % known stride duration, in seconds
 
 %% CPI values to sweep
-CPI_values_s = 0.05:0.05:0.5;   % same set you used for the simulator version
+CPI_values_s = 0.05:0.05:0.5;
 numCPI = length(CPI_values_s);
 
 rmse_s = NaN(1, numCPI);

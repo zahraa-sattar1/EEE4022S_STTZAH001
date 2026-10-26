@@ -96,7 +96,7 @@ for k = 1:numel(cfgList)
         tVel = T.time;                                   % both time axes already label the frame centre
         tStep = times;
     else
-        tVel = T.time + (T.N / 2) / fs;                  % old: centre added a second time
+        tVel = T.time + (T.N / 2) / fs;                  % legacy timing branch
         tStep = times + (L.N / 2) / fs;
     end
     strideLengths_m = strideLengthFromVelocity(vel, tVel, tStep);
