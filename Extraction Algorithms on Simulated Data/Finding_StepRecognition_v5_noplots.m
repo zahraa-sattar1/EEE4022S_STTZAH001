@@ -1,5 +1,8 @@
-% Detect leg-swing peaks in simulated radar data.
-% Run the simulator first. Step times and stride intervals are retained.
+%% Step recognition on simulated data
+% Zahraa Sattar | EEE4022S
+%
+% Detect leg-swing peaks in the simulated Doppler signal.
+% The existing simulator workspace supplies the signal and gait-cycle reference.
 
 freq_high_Yardibi = 350*24/5.8; % upper leg-frequency limit scaled from 350Hz to 24GHz
 

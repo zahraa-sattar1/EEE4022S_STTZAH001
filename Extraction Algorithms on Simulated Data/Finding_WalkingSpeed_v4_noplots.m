@@ -1,5 +1,8 @@
+%% Walking speed on simulated data
+% Zahraa Sattar | EEE4022S
+%
 % Estimate walking speed from the torso Doppler track.
-% Run the simulator first. The velocity track is retained for stride length.
+% The existing simulator workspace supplies the signal, and the velocity track is retained for stride length.
 
 fc_paper = 5.8e9;              % Yardibi et al. (2011)'s radar carrier, Hz
 

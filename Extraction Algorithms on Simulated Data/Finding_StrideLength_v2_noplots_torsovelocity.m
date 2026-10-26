@@ -1,5 +1,8 @@
-% Integrate torso velocity between detected step events.
-% Run step recognition and walking-speed extraction first.
+%% Stride length on simulated data
+% Zahraa Sattar | EEE4022S
+%
+% Integrate the torso-velocity track between detected step events.
+% Step recognition and walking-speed results are taken from the existing workspace.
 
 torsoVelocityMethod = 'walkingspeed';
 

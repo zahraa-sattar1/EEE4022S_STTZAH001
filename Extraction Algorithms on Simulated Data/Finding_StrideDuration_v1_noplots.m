@@ -1,5 +1,8 @@
-% Calculate stride duration from the detected step intervals.
-% Run step recognition first.
+%% Stride duration on simulated data
+% Zahraa Sattar | EEE4022S
+%
+% Compare detected stride intervals with the simulated gait cycle.
+% This script uses the step-recognition results already in the workspace.
 
 groundTruth_strideDurations_s = Tc*ones(size(strideDurations_s));   % same length as the estimated array, so the two compare one-to-one
 
@@ -10,4 +13,3 @@ estimated_strideDurations_s = strideDurations_s;
 fprintf('--- Stride duration comparison ---\n');
 fprintf('Ground truth (Tc): %.4f s (n=%d)\n', Tc, numel(groundTruth_strideDurations_s));
 fprintf('Estimated:         mean %.4f s, std %.4f s (n=%d)\n', mean(estimated_strideDurations_s,'omitnan'), std(estimated_strideDurations_s,'omitnan'), numel(estimated_strideDurations_s));   % summary stats for the estimated stride durations
-
