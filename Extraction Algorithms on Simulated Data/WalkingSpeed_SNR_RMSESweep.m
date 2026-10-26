@@ -482,7 +482,7 @@ for snrIdx = 1:length(SNRValues)
         OverlapFactor = 0.8;
         noverlap = floor(OverlapFactor*NumSamplesPerFrame);
         nfft = NumSamplesPerFrame;
-        [S, FrequencyAxis, TimeAxis] = Zahraa_Spectrogram(RdrRxSignal, win, noverlap, nfft, fs);  % my spectogram
+        [S, FrequencyAxis, TimeAxis] = Zahraa_Spectrogram(RdrRxSignal, win, noverlap, nfft, fs);
         VelocityAxis = FrequencyAxis*lamda/2;
 
         %% Crop To Speed Range Of Interest

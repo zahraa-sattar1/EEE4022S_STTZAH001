@@ -492,7 +492,7 @@ for snrIdx = 1:length(SNRValues)
         OverlapFactor = 0.8;
         noverlap = floor(OverlapFactor*NumSamplesPerFrame);
         nfft = NumSamplesPerFrame;
-        [S, FrequencyAxis, TimeAxis] = Zahraa_Spectrogram(RdrRxSignal, win, noverlap, nfft, fs);  % my spectogram
+        [S, FrequencyAxis, TimeAxis] = Zahraa_Spectrogram(RdrRxSignal, win, noverlap, nfft, fs);
         VelocityAxis = FrequencyAxis*lamda/2;
 
         %% Crop To Speed Range Of Interest
@@ -1082,7 +1082,7 @@ function xAvg = d2_AverageFilterRadarData(x, avgSamples)
 end
 
 %% Step 2: Compute Spectogram
-function [S, freq_axis, time_axis, fsProc] = d2_ComputeGaitSpectrogram(x, fs, CPI_s)  % added CPI_s
+function [S, freq_axis, time_axis, fsProc] = d2_ComputeGaitSpectrogram(x, fs, CPI_s)  % CPI request, s
     Seifert_approach = 0;
     if (Seifert_approach == 1)
         processingFs = 2560;   % Hz

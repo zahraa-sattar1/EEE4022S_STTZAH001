@@ -143,7 +143,7 @@ function xAvg = AverageFilterRadarData(x, avgSamples)
 end
 
 %% Step 2: Compute Spectrogram
-function [S, freq_axis, time_axis, fsProc] = ComputeGaitSpectrogram(x, fs, CPI_s)  % added CPI_s
+function [S, freq_axis, time_axis, fsProc] = ComputeGaitSpectrogram(x, fs, CPI_s)  % CPI request, s
     Seifert_approach = 0;
     if (Seifert_approach == 1)
         processingFs = 2560;   % Hz

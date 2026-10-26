@@ -482,7 +482,7 @@ for cpiIdx = 1:length(CPIValues)
         OverlapFactor = 0.8;
         noverlap = floor(OverlapFactor*NumSamplesPerFrame);
         nfft = NumSamplesPerFrame;
-        [S, FrequencyAxis, TimeAxis] = Zahraa_Spectrogram(RdrRxSignal, win, noverlap, nfft, fs);  % my spectogram
+        [S, FrequencyAxis, TimeAxis] = Zahraa_Spectrogram(RdrRxSignal, win, noverlap, nfft, fs);
         VelocityAxis = FrequencyAxis*lamda/2;
 
         %% Crop To Speed Range Of Interest
@@ -682,7 +682,7 @@ close all;   % close all the hidden figures from the trial runs
 CPIValues = CPIValues(:).';   % force to a row vector, in case anything left it as a column
 CPI_actual_WS_sweep_s = CPI_actual_WS_sweep_s(:).';   % force to a row vector, in case anything left it as a column
 
-rmse_mps = rmse_mps(:).';     % same fix, so plot always gets two matching row vectors
+rmse_mps = rmse_mps(:).';
 if length(CPIValues) ~= length(rmse_mps)
     error('CPIValues has %d entries but rmse_mps has %d - the script was probably only partly run. Re-run the WHOLE file from the top, not a highlighted section.', ...
         length(CPIValues), length(rmse_mps));

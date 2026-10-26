@@ -490,7 +490,7 @@ for trial = 1:numTrials_cpi   % repeat numTrials_cpi times, since the noise is d
         OverlapFactor = 0.8;
         noverlap = floor(OverlapFactor*NumSamplesPerFrame);
         nfft = NumSamplesPerFrame;
-        [S, FrequencyAxis, TimeAxis] = Zahraa_Spectrogram(RdrRxSignal, win, noverlap, nfft, fs);  % my spectogram
+        [S, FrequencyAxis, TimeAxis] = Zahraa_Spectrogram(RdrRxSignal, win, noverlap, nfft, fs);
         VelocityAxis = FrequencyAxis*lamda/2;
 
         %% Crop To Speed Range Of Interest
@@ -753,8 +753,8 @@ close all;   % close all the hidden figures from the trial runs
 %% Tidy up the arrays and catch a partial run before it causes a confusing error
 
 CPIValues = CPIValues(:).';       % force to a row vector, in case anything left it as a column
-CPI_actual_SD_s = CPI_actual_SD_s(:).';   % same fix, so plot gets matching row vectors
-rmse_s = rmse_s(:).';   % same fix again
+CPI_actual_SD_s = CPI_actual_SD_s(:).';
+rmse_s = rmse_s(:).';
 
 if length(CPIValues) ~= length(rmse_s)   
     error('CPIValues has %d entries but rmse_s has %d - the script was probably only partly run. Re-run the WHOLE file from the top, not a highlighted section.', ...
@@ -960,7 +960,7 @@ function xAvg = d2_AverageFilterRadarData(x, avgSamples)
 end
 
 %% Step 2: Compute Spectogram
-function [S, freq_axis, time_axis, fsProc] = d2_ComputeGaitSpectrogram(x, fs, CPI_s)  % added CPI_s
+function [S, freq_axis, time_axis, fsProc] = d2_ComputeGaitSpectrogram(x, fs, CPI_s)  % CPI request, s
     Seifert_approach = 0;
     if (Seifert_approach == 1)
         processingFs = 2560;   % Hz
