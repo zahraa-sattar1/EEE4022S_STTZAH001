@@ -1,0 +1,46 @@
+SPLIT CHECK v1   folder RealData_v18_20261016_165900/SplitCheck_v1_GroundTruth_v17   made 2026-10-16 17:09
+Ground truth file: RealData_GroundTruth_v17.csv. Single-pass walks only (142 walks): 103 in the tuning set (75%), 39 held out (25%).
+Split rule: a quarter of each participant x pace group (rounded), spread evenly through the trial order, is held out. No random numbers are used.
+  group count (tuning / held-out)   
+                 Slow  Comfortable         Fast    Very fast
+  P1            7 / 3        8 / 3        7 / 3       10 / 4
+  P2            7 / 3        9 / 3        7 / 2       10 / 4
+  P3            7 / 3       11 / 4       13 / 5        7 / 2
+
+ACCURACY (100 - RMSE%) OF EVERY SETTING ON THE TUNING WALKS AND ON THE HELD-OUT WALKS
+  setting  | tuning 75%: speed steps strDur strLen         | held-out 25%: speed steps strDur strLen       | tuning mean
+  Old      |      94.24     84.33     84.81     82.86      |      95.20     87.28     88.85     87.99      | 86.56
+  F8       |      93.83     85.94     87.08     84.63      |      94.41     90.76     90.08     87.81      | 87.87
+  F12      |      93.83     91.48     88.74     86.01      |      94.41     94.51     92.54     89.69      | 90.01
+  FN15     |      93.83     93.26     89.09     86.53      |      94.41     96.76     93.41     90.29      | 90.68
+  FN20     |      93.83     92.10     88.74     86.26      |      94.41     97.71     93.66     90.56      | 90.23
+  Cap15    |      93.83     91.15     88.58     85.80      |      94.41     94.88     92.74     89.85      | 89.84
+  MF16     |      93.83     91.39     88.42     85.80      |      94.41     90.40     89.78     88.11      | 89.86
+  FinalFixed |      93.83     93.26     89.09     86.53      |      94.41     96.76     93.41     90.29      | 90.68
+  FinalNoEdge |      93.83     96.67     93.17     89.85      |      94.41     96.76     93.41     90.29      | 93.38
+  Final    |      93.83     97.54     93.17     89.85      |      94.41     97.71     93.41     90.29      | 93.60
+  Best setting on the tuning walks: Final. Its held-out accuracy: 94.41 97.71 93.41 90.29. Final (chosen on the simulator): 94.41 97.71 93.41 90.29.
+  Final, tuning against held-out (accuracy points, held-out minus tuning): +0.58 +0.18 +0.24 +0.45. A small difference means the result does not depend on which walks were scored.
+
+ONE-NUMBER SPEED SCALE (calibration, reported separately from the main result)
+  Scale fitted on the tuning walks only: k = 1.0440 (the radar speed is multiplied by k, and so is the stride length, which is the integral of the speed).
+  Held-out walking speed accuracy:  94.41 -> 95.89
+  Held-out stride length accuracy:  90.29 -> 93.60
+    held-out P1   (n = 13): speed 95.47 -> 96.58, stride length 90.01 -> 93.45
+    held-out P2   (n = 12): speed 92.51 -> 94.48, stride length 88.25 -> 91.62
+    held-out P3   (n = 14): speed 95.54 -> 96.84, stride length 92.83 -> 96.25
+
+500 RANDOM 75/25 SPLITS (also split by participant and pace, seed 2026), held-out accuracy of Final
+                             Walking speed Step count Stride duration Stride length
+  without the scale: mean        94.05     98.30     93.25     89.99
+     2.5th percentile            93.11     95.39     91.91     88.91
+     97.5th percentile           94.95    100.00     94.42     91.09
+     splits at or above 90%      100.0     100.0     100.0      51.8
+  with the scale: mean           95.52     98.30     93.25     92.98
+     2.5th percentile            94.71     95.39     91.91     91.19
+     97.5th percentile           96.38    100.00     94.42     94.54
+     splits at or above 90%      100.0     100.0     100.0     100.0
+  Scale k over the splits: mean 1.0433, standard deviation 0.0020. A stable k means the bias is systematic, not a few walks.
+
+HOW TO REPORT THIS: the main result is Final without the scale. The scale is one fitted number, tested on walks that were not used to fit it,
+and it corrects a bias that the video reference may also share (e.g. steps not landing exactly on the 0.65 m markers), so it is labelled a calibration.
