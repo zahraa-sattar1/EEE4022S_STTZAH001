@@ -15,7 +15,7 @@ This project uses simulated and measured 24GHz CW radar signals to estimate walk
 
 ## Recordings
 
-The consent forms stated that recorded data would not be shared publicly, so the WAV files are not included here. Measured-data processing requires authorised local copies of the recordings. Saved result tables can be analysed without them.
+Ten example radar WAV recordings are included in `Participant Recordings`, with their reference values and saved estimates. These are a sample of the measured dataset. The full analysis uses saved results for 142 single-pass walks.
 
 ## MATLAB
 
@@ -52,15 +52,15 @@ The main results use 142 single-pass walks. Six double walks are analysed separa
 
 `EstimateSNR_RealData_v1` calibrates against simulated signals and estimates an equivalent SNR for each local recording. [SNR_Estimation.md](<Extraction Algorithms on Measured Data/SNR_Estimation.md>) gives the inputs and commands.
 
-### Local measured-data example
+### Measured-data example
 
-With the ten matching WAV files in `Participant Recordings`, run:
+The ten example WAV files are in `Participant Recordings`. Run:
 
 ```matlab
 Run_Measured_Demo
 ```
 
-This processes the recordings and compares the four parameter estimates with `Expected_Results.csv`. It cannot run from this repository alone because the WAV files are not included.
+This processes all ten recordings and compares the four parameter estimates with `Expected_Results.csv`. The results, plots and comparison checks are saved in a new folder under `Results`.
 
 ## Settings
 
