@@ -1,7 +1,13 @@
 # Participant recordings
 
-The consent forms stated that recorded data would not be shared publicly, so the WAV files are not included here.
+This folder contains ten example radar WAV recordings: four from P1 and three each from P2 and P3. The files ending in `_cropped.wav` are the retained crops used in the analysis.
 
-`Demo_References.csv` contains the reference values for ten selected walks. `Expected_Results.csv` contains their saved estimates. Neither file contains recording samples.
+`Demo_References.csv` lists each file, its reference values, sample count and checksum. `Expected_Results.csv` contains the saved estimates for comparison.
 
-`Run_Measured_Demo` requires the matching WAV files to be available locally under an arrangement permitted by the study consent.
+From the repository folder in MATLAB, run:
+
+```matlab
+Run_Measured_Demo
+```
+
+The script processes the ten recordings, plots the results and checks the estimates against the saved values. These ten walks are an example, rather than the full measured validation dataset.
