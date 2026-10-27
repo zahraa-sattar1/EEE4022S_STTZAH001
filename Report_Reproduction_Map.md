@@ -1,6 +1,6 @@
 # Final-report reproduction check
 
-Checked against the 92-page final-report PDF dated 27 October 2026. This map distinguishes running extraction again from recalculating statistics on saved estimates. The ten supplied recordings are a demonstration subset. They cannot reproduce the full 142-walk validation by themselves.
+Checked against the 92-page final-report PDF dated 27 October 2026. This map distinguishes running extraction again from recalculating statistics on saved estimates. No WAV recordings are included in the current version because the consent forms stated that recorded data would not be shared publicly. The ten-walk demonstration requires authorised local copies. It does not represent all 142 validation walks.
 
 ## Commands
 
@@ -18,7 +18,7 @@ addpath('Extraction Algorithms on Simulated Data')
 Render_Original_Comparisons
 ```
 
-These commands read saved results. The measured demonstration runs extraction on the ten supplied WAV files:
+These commands read saved results. The measured demonstration runs extraction only when the ten matching WAV files are available locally under an approved sharing arrangement:
 
 ```matlab
 Run_Measured_Demo
@@ -48,7 +48,7 @@ Run_Measured_Demo
 
 ## Participant-data permissions
 
-The consent information sheet says recorded data will not be shared publicly. Do not expand the public recording dataset without clarification from the supervisor or ethics committee. The existing public recordings and participant-level result inputs also need review. Code and synthetic simulation inputs are separate from this permission question.
+The consent information sheet says recorded data will not be shared publicly. The ten WAV recordings have been removed from the current version. The repository remains public. Saved report results and code are retained, but public permission for any further participant-level data release must be clarified with the supervisor or ethics committee. Normal file deletion does not remove the WAVs from earlier Git commits.
 
 ## Remaining gaps
 
@@ -56,7 +56,7 @@ This repository is **not yet a complete fresh-data reproduction of every final-r
 
 | Report item | Missing evidence or input |
 |---|---|
-| All 142 measured walks from raw signals | Only ten WAVs are supplied. Saved estimates allow the full statistics to be recalculated, but not independently extracted again for every walk. |
+| All 142 measured walks from raw signals | No WAVs are included in the current version. Saved estimates allow the full statistics to be recalculated, but not independently extracted again for every walk. |
 | Table 4.6 and its radar-height discussion | The exact original height-comparison run and the step-time ICC calculation have not been located or verified. The available simulator can accept changed geometry, but that alone does not establish the reported numbers. |
 | Exact fresh simulation of Table C.3 | The report used Octave outputs. The MATLAB driver runs, but its full numerical agreement with that original run is unverified. |
 | Table C.1, before/after boundary review | Requires the exact paired historical estimates and reference versions for the ten reviewed crops. Final v18 estimates alone are insufficient. |
