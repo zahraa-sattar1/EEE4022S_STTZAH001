@@ -92,3 +92,7 @@ This regenerates the full-dataset report tables and figures under `Extraction Al
 ## Other project scripts
 
 The four standalone extraction scripts and the CPI/SNR sweeps preserve earlier design tests. Some use shared workspace variables or recording-specific references. They are separate from the ten-recording demonstration. The simulator includes its joint-angle helpers locally, with separate copies available for inspection. `Zahraa_Spectrogram.m` is supplied in each code folder.
+
+## Final-report reproduction check
+
+The latest check uses the complete final PDF dated 27 October 2026. [Report_Reproduction_Map.md](Report_Reproduction_Map.md) lists the commands, matching result versions and remaining gaps. The repository supports the ten-recording extraction demo and recalculation of many full-report statistics from saved estimates. It does not yet reproduce every report result from raw data.
