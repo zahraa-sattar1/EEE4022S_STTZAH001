@@ -1,3 +1,3 @@
-# Keep participant WAV files out of the repository.
+# Keep additional recordings out of the repository.
 **/*.wav
 **/*.WAV
