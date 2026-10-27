@@ -4,36 +4,25 @@ Zahraa Sattar · EEE4022S · University of Cape Town
 
 This project investigates walking speed, step recognition, stride duration and stride length from 24GHz continuous-wave radar. Simulated walking is used for verification. Participant recordings are used for measured-data validation.
 
-## Run the measured demonstration
+## Data availability
 
-The demonstration was tested in MATLAB R2025a with Signal Processing Toolbox. Download the repository using **Code → Download ZIP**, extract it, and open the extracted repository folder as the MATLAB Current Folder. Keep the folder structure intact.
+The consent forms stated that recorded data would not be shared publicly. The participant WAV recordings are therefore not included in the current version of this repository. The repository remains public for the code, synthetic simulation inputs and saved report results.
 
-Run:
+The full measured extraction cannot be rerun from this repository alone. The saved estimates and matching references allow the report statistics to be recalculated without the recordings.
+
+## Measured-data code
+
+The ten-walk demonstration was tested in MATLAB R2025a with Signal Processing Toolbox before the WAV files were removed. It reproduced the retained Final estimates within 1e-6. It now requires the matching recordings to be supplied locally through an arrangement permitted by the consent. Downloading this repository alone is insufficient to run it.
+
+With authorised local copies in `Participant Recordings`, run:
 
 ```matlab
 Run_Measured_Demo
 ```
 
-The demonstration processes the ten supplied WAV files with Pipeline v14 and the retained Final settings. No recordings from outside this repository are needed. The results are saved in a new `Results/Measured_...` folder:
+The folder retains `Demo_References.csv` and `Expected_Results.csv`. These record the ten selected files, their checksums, reference values and saved estimates. Four walks were selected from P1 and three each from P2 and P3 at evenly spaced speed ranks. Extraction errors were not used for selection. This was a demonstration subset, not the full validation dataset.
 
-| Output | Contents |
-|---|---|
-| `Results.csv` | Reference and estimated values for each recording. |
-| `Summary.csv` | MAE, RMSE and percentage error for the four parameters. |
-| `Parameter_Comparison.png` | Reference and estimated values across the ten walks. |
-| `WalkPlots/` | Leg detections and the torso-speed track for each walk. |
-| `Reproduction_Check.csv` | Differences from the retained results, checked within 1e-6. |
-| `References_Used.csv`, `Parameters_Used.csv` | Inputs used for that run. |
-
-`Run_Measured_Recordings.m` processes the recordings. `Summarise_Measured_Results.m` creates the tables and comparison figure. These are the smaller demonstration versions of the measured batch and reporting workflow. They run the Final configuration only.
-
-## Recordings and references
-
-`Participant Recordings` contains four walks from P1 and three each from P2 and P3. Within each participant, walks were sorted by reference speed and selected at evenly spaced ranks, including the slowest and fastest eligible walks. Only single-pass, non-limp recordings were considered. Extraction errors were not used for selection. This is a demonstration subset, not the full validation dataset.
-
-The exact WAV versions used in the completed analysis are supplied. Files ending in `_cropped.wav` are the retained crops. `Demo_References.csv` records each file, its sample count, sample rate and SHA-256 checksum. `Expected_Results.csv` contains the Final estimates retained from the completed v18 analysis.
-
-Reference speed is walked distance divided by WAV duration. Reference stride duration is twice the WAV duration divided by the retained step count. Reference stride length is twice the walked distance divided by that count. These are walk-level references, rather than independently timed individual strides.
+`Run_Measured_Recordings.m` processes the local recordings. `Summarise_Measured_Results.m` writes the parameter tables and plots. The wrapper compares the estimates against the retained results. Reference speed is distance divided by WAV duration. Reference stride duration is twice the duration divided by the retained step count, and reference stride length is twice the distance divided by that count.
 
 ## Retained parameter settings
 
@@ -95,4 +84,4 @@ The four standalone extraction scripts and the CPI/SNR sweeps preserve earlier d
 
 ## Final-report reproduction check
 
-The latest check uses the complete final PDF dated 27 October 2026. [Report_Reproduction_Map.md](Report_Reproduction_Map.md) lists the commands, matching result versions and remaining gaps. The repository supports the ten-recording extraction demo and recalculation of many full-report statistics from saved estimates. It does not yet reproduce every report result from raw data.
+The latest check uses the complete final PDF dated 27 October 2026. [Report_Reproduction_Map.md](Report_Reproduction_Map.md) lists the commands, matching result versions and remaining gaps. The repository supports simulated tests and recalculation of many full-report statistics from saved estimates. Measured extraction additionally requires authorised local recordings. It does not yet reproduce every report result from raw data.
