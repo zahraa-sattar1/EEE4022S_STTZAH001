@@ -76,7 +76,11 @@ addpath('Extraction Algorithms on Measured Data')
 RealData_Summary_v7
 ```
 
-This regenerates the full-dataset report tables and figures under `Extraction Algorithms on Measured Data/Report Results/Summary_v7_Report_References`. It reads the saved estimates, so the remaining WAV recordings are not required. The main comparison covers 142 single-pass walks. Six double walks are reported separately. Extra diagnostics in the historical summary are not all claims made in the final report. SNR-specific figures require their separate diagnostic input, which is not included here.
+This regenerates the full-dataset report tables and figures under `Extraction Algorithms on Measured Data/Report Results/Summary_v7_Report_References`. It reads the saved estimates, so the remaining WAV recordings are not required. The main comparison covers 142 single-pass walks. Six double walks are reported separately. Extra diagnostics in the historical summary are not all claims made in the final report. SNR-specific figures need `RealData_SNR_Pth.csv` from a matching diagnostic run. The estimator is included, but that saved input is not.
+
+## SNR estimation on measured data
+
+`EstimateSNR_RealData_v1.m` is in the measured-data folder, with its recording helpers included. It calibrates against simulated signals, then estimates an equivalent SNR and noise-based threshold for each local recording. [SNR_Estimation.md](<Extraction Algorithms on Measured Data/SNR_Estimation.md>) gives the inputs and commands. The WAVs remain excluded under the consent restriction.
 
 ## Other project scripts
 
