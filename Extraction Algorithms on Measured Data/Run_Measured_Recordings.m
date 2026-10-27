@@ -1,7 +1,7 @@
 %% Run measured recordings
 % Zahraa Sattar | EEE4022S
 %
-% Process the ten supplied recordings using the retained Final settings.
+% Process the ten locally held recordings using the retained Final settings.
 % Save the four parameter estimates and a detection plot for each walk.
 
 function outDir = Run_Measured_Recordings(userCfg)
