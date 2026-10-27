@@ -1,7 +1,7 @@
 %% Measured walking demonstration
 % Zahraa Sattar | EEE4022S
 %
-% Run the ten supplied walking recordings and summarise the four parameters.
+% Run the ten locally held walking recordings and summarise the four parameters.
 % Compare the estimates with the retained results from the completed analysis.
 
 function resultsFolder = Run_Measured_Demo()
