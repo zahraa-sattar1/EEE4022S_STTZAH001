@@ -9,7 +9,7 @@ addpath('Extraction Algorithms on Measured Data')
 EstimateSNR_RealData_v1(struct('Quick',true,'RunRealData',false))
 ```
 
-For measured data, set `RecordingFolder` to the folder containing the local WAV files. Cropped recordings are preferred. The folder can contain `CroppedRecordings`, participant folders such as `P1 Test Walks`, or the WAV files directly.
+For measured data, `RecordingFolder` defaults to `Participant Recordings`. Set it to another folder to analyse a different local dataset. Cropped recordings are preferred. The folder can contain `CroppedRecordings`, participant folders such as `P1 Test Walks`, or the WAV files directly.
 
 `GroundTruthFile` selects the recording list. Its default is `Report Results/Report_References.csv`. Every listed recording is attempted, including double walks and limp recordings if present. Omit Quick mode for the full calibration.
 
@@ -24,4 +24,4 @@ Each run writes a new `SNREstimate_...` folder beside the script:
 
 The SNR estimate is on the simulator's scale. Values outside the calibrated range are flagged and should not be treated as precise measurements. This diagnostic does not change the final threshold in Pipeline v14.
 
-Tested in MATLAB R2025a with Signal Processing Toolbox. The WAV files are not included under the study's consent restriction.
+Tested in MATLAB R2025a with Signal Processing Toolbox. Ten example WAV files are included. The default reference table lists the full dataset, so select `Participant Recordings/Demo_References.csv` as `GroundTruthFile` when using only the examples.
