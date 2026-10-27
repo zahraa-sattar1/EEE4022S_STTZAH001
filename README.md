@@ -68,6 +68,27 @@ This checks segment Doppler behaviour, torso phase and added noise. Verification
 
 The measured demonstration reproduced all ten retained Final estimates within 1e-6. The quick simulated comparison passed its three gates. The physical verification completed, with all 36 segment Doppler comparisons passing. The full simulated extraction sweep was not rerun for this package.
 
+## Report result scripts
+
+The original Chapter 4 experiment drivers are also included in `Extraction Algorithms on Simulated Data`:
+
+| Script | Report evidence |
+|---|---|
+| `Master_SimSweep_v6_TcEstimate.m` | Estimated-cycle CPI/SNR selection and best-case accuracy and repeatability. |
+| `Master_SlowSpeedFix_v1.m` | Torso-band comparison and slow-speed appendix figure. |
+| `Master_StepWindowFineTune_v1.m` | Step-window comparison and the appendix pass-count figure. |
+
+`Report_Script_Map.md` identifies the retained result folders. These drivers use their own historical inputs from `Report Sources`, rather than the packaged demo extractors. Reduced MATLAB checks completed for all three drivers. Their generated extractor code matches the saved report-run copies. The full sweeps were not repeated for this upload.
+
+The original full measured-data summary is included with saved v18 estimates and matching v17 references. From the repository folder, run:
+
+```matlab
+addpath('Extraction Algorithms on Measured Data')
+RealData_Summary_v7
+```
+
+This regenerates the full-dataset report tables and figures under `Extraction Algorithms on Measured Data/Report Results/Summary_v7_Report_References`. It reads the saved estimates, so the remaining WAV recordings are not required. The main comparison covers 142 single-pass walks. Six double walks are reported separately. Extra diagnostics in the historical summary are not all claims made in the final report. SNR-specific figures require their separate diagnostic input, which is not included here.
+
 ## Other project scripts
 
 The four standalone extraction scripts and the CPI/SNR sweeps preserve earlier design tests. Some use shared workspace variables or recording-specific references. They are separate from the ten-recording demonstration. The simulator includes its joint-angle helpers locally, with separate copies available for inspection. `Zahraa_Spectrogram.m` is supplied in each code folder.
