@@ -25,7 +25,7 @@ EstimateSNR_RealData_v1(struct('Quick',true,'RunRealData',false))
 
 Set `RecordingFolder` to the WAV folder and `GroundTruthFile` to the recording list. Cropped files are preferred. The loader checks `CroppedRecordings`, participant folders such as `P1 Test Walks`, and files directly in the WAV folder.
 
-The default recording folder is `Participant Recordings`. The default reference table, `Report Results/Report_References.csv`, lists the full dataset. Use `Demo_References.csv` when only the ten examples are available. Every listed walk is attempted, including double walks and limp recordings if present.
+The default recording folder is `Participant Recordings`. The default reference table, `Report Results/Report_References.csv`, lists the 142 analysed single-pass walks. Use `Demo_References.csv` when only the ten examples are available. Every walk in the selected list is attempted.
 
 ## Outputs
 
