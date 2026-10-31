@@ -9,3 +9,21 @@
 Run a script from this folder or add it to the MATLAB path. Each experiment writes a new output folder.
 
 The drivers use the simulator and extractor versions in `Report Sources`. These are kept separate because the experiments modify specific source expressions in working copies. Full sweeps take longer than Quick mode.
+
+## Optional checks
+
+From the repository folder, run the simulator checks with:
+
+```matlab
+addpath('Radar Simulator')
+Verify_Radar_Simulator
+```
+
+For a short simulated extraction check:
+
+```matlab
+addpath('Extraction Algorithms on Simulated Data')
+Verify_Simulated_Extraction(struct('Quick',true))
+```
+
+These save verification tables and figures under `Results`. Quick mode uses two speeds and fewer noise draws. Run `Verify_Simulated_Extraction` without an argument for the full sweep.
