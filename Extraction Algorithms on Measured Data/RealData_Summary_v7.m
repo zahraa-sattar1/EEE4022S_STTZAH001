@@ -11,7 +11,6 @@ cfg.SNRFile = '';                                        % empty = the newest SN
 cfg.PassAccuracy_pct = 90;                               % pass mark for all four parameters
 cfg.PaceEdges_mps = [0.8 1.0 1.2];                       % pace region boundaries
 cfg.GroundTruthFile = fullfile(fileparts(mfilename('fullpath')), 'Report Results', 'Report_References.csv');                                % empty = current pointer reference file
-cfg.ExcludeDouble = true;                                % leave the double walks out of the main results
 cfg.IncludeArchivedVideoTiming = false;                  % optional historical check, excluded from Chapter 5
 if nargin > 0 && isstruct(userCfg)
     fn = fieldnames(userCfg);
@@ -22,19 +21,11 @@ end
 [cfg.ResultsFolder, cfg.GroundTruthFile] = RealData_ResolveReportInputs_v1(cfg.ResultsFolder, cfg.GroundTruthFile);
 T = readCsvStruct(fullfile(cfg.ResultsFolder, 'Results_AllConfigs.csv'));
 T = applyGroundTruth(T, cfg.GroundTruthFile);            % ground truth from the file, estimates from the run
-isDouble = strcmpi(strtrim(T.walkType), 'Double');       % walks with a turn in the middle
-if cfg.ExcludeDouble
-    inMain = ~isDouble;
-    mainName = 'Single-pass walks';
-else
-    inMain = true(size(isDouble));
-    mainName = 'All walks';
-end
+T = keepSinglePassRows(T);
+inMain = true(size(T.walkType));
+mainName = 'Single-pass walks';
 [~, gtName] = fileparts(cfg.GroundTruthFile);
 outDir = fullfile(cfg.ResultsFolder, ['Summary_v7_' strrep(gtName, 'RealData_', '')]);
-if ~cfg.ExcludeDouble
-    outDir = [outDir '_withDouble'];
-end
 if ~exist(outDir, 'dir')
     mkdir(outDir);
 end
@@ -67,7 +58,7 @@ for g = 1:numel(participants)
     groupMask{5 + g} = strcmp(T.participant, participants{g}) & inMain;
 end
 for g = 1:numel(walkTypes)
-    groupMask{5 + numel(participants) + g} = strcmp(strtrim(T.walkType), walkTypes{g});   % single pass or double walk with a turn
+    groupMask{5 + numel(participants) + g} = strcmp(strtrim(T.walkType), walkTypes{g});   % single-pass group
 end
 
 %% Accuracy table
@@ -169,8 +160,8 @@ fclose(fidW);
 R = {};
 R{end+1} = sprintf('REAL DATA SUMMARY v7   folder %s   made %s', outDir, datestr(now, 'yyyy-mm-dd HH:MM'));
 R{end+1} = sprintf('Ground truth file: %s (%d walks changed from the previous version).', cfg.GroundTruthFile, numel(unique(lower(T.wav_file(T.gtChanged == 1)))));
-R{end+1} = sprintf('Main results: %s, %d walks (limp walks left out by the runner, %d double walks %s), %d rows failed.', mainName, ...
-    numel(unique(lower(T.wav_file(inMain)))), numel(unique(lower(T.wav_file(isDouble)))), ternary(cfg.ExcludeDouble, 'reported on their own', 'included'), sum(hasError));
+R{end+1} = sprintf('Main results: %s, %d walks, %d rows failed.', mainName, ...
+    numel(unique(lower(T.wav_file(inMain)))), sum(hasError));
 R{end+1} = sprintf('Accuracy = 100 - RMSE%%, RMSE%% = root mean square of the per-walk %% errors. Pass mark %g%% for all four parameters.', cfg.PassAccuracy_pct);
 if T.referenceUsesWAV
     R{end+1} = 'References: retained trial-log distance/count. Speed = distance / selected WAV duration. Stride duration = 2 x WAV duration / count. Stride length = 2 x distance / count. Logged walking time was not used.';
@@ -270,7 +261,7 @@ else
         R{end+1} = sprintf('  Correlation between SNR and |error| of %s: r = %.2f (n = %d)', params{p, 1}, r, sum(k2)); %#ok<AGROW>
     end
 end
-R = [R, extraSections(T, configs, params, inMain, isDouble, hasError, cfg), doubleWalkSection(T, configs, params, isDouble, hasError), sensitivitySection(T, configs{end}, inMain, hasError), literatureSections(T, configs{end}, inMain, hasError, cfg)];
+R = [R, extraSections(T, configs, params, inMain, hasError, cfg), sensitivitySection(T, configs{end}, inMain, hasError), literatureSections(T, configs{end}, inMain, hasError, cfg)];
 fid = fopen(fullfile(outDir, 'Summary_Report.txt'), 'w');
 fprintf(fid, '%s\n', R{:});
 fclose(fid);
@@ -305,7 +296,6 @@ try
         saveas(fig, fullfile(outDir, 'Fig_SNR_PerWalk.png'));
         close(fig);
     end
-    drawDoubleWalkFigure(T, configs, params, isDouble, hasError, cfg, outDir);
 catch ME
     fprintf('Figures skipped: %s\n', ME.message);
 end
@@ -324,19 +314,17 @@ st.bias = mean(e);
 st.within10 = 100 * mean(abs(e) <= 10);
 end
 
-function R = extraSections(T, configs, params, inMain, isDouble, hasError, cfg)
+function R = extraSections(T, configs, params, inMain, hasError, cfg)
 nP = size(params, 1);
 fin = configs{end};
 R = {};
 
 R{end+1} = '';
-R{end+1} = 'EFFECT OF THE GROUND TRUTH VERSION AND OF THE DOUBLE WALKS (accuracy %)';
+R{end+1} = 'GROUND TRUTH VERSION COMPARISON (accuracy %)';
 R{end+1} = sprintf('  "previous" = the values the ground truth file keeps from the version before (columns %s...).', T.prevPrefix);
 R{end+1} = sprintf('  %-8s %-34s %8s %8s %8s %8s   n', 'setting', 'case', 'speed', 'steps', 'strDur', 'strLen');
-cases = {'previous ground truth, all walks', 'prev', true(size(inMain)); ...
-         'previous ground truth, single pass', 'prev', ~isDouble; ...
-         'new ground truth, all walks', 'now', true(size(inMain)); ...
-         'new ground truth, single pass', 'now', ~isDouble};
+cases = {'previous ground truth, single pass', 'prev', inMain; ...
+         'new ground truth, single pass', 'now', inMain};
 for k = [1, numel(configs)]
     for c = 1:size(cases, 1)
         m = strcmp(T.config, configs{k}) & ~hasError & cases{c, 3};
@@ -420,103 +408,6 @@ for p = 1:nP
 end
 R{end+1} = sprintf('  pooled held-out          accuracy %6.2f %6.2f %6.2f %6.2f', aP);
 R{end+1} = sprintf('  %-8s (simulator)      accuracy %6.2f %6.2f %6.2f %6.2f', fin, aF);
-end
-
-function R = doubleWalkSection(T, configs, params, isDouble, hasError, cfg)
-nP = size(params, 1);
-fin = configs{end};
-R = {};
-R{end+1} = '';
-R{end+1} = 'DOUBLE WALKS INCLUDED OR LEFT OUT (accuracy %, 100 - RMSE%)';
-R{end+1} = '  "single" = single-pass walks only. "all" = single-pass plus double walks. "double" = the double walks on their own.';
-R{end+1} = '  change = all - single (negative: the double walks pull the accuracy down). The double walks have a turn in the middle,';
-R{end+1} = '  which the algorithm does not model, so they are reported separately and are not part of the main result.';
-R{end+1} = sprintf('  %-8s %-9s %9s %9s %9s %9s   n', 'setting', 'case', params{:, 1});
-for k = unique([1, numel(configs)])
-    cases = {'single', ~isDouble; 'all', true(size(isDouble)); 'double', isDouble};
-    a = zeros(3, nP);
-    nn = zeros(3, 1);
-    for c = 1:3
-        m = strcmp(T.config, configs{k}) & ~hasError & cases{c, 2};
-        nn(c) = numel(unique(lower(T.wav_file(m))));
-        for p = 1:nP
-            a(c, p) = accuracyOf(T.(params{p, 2})(m), T.(params{p, 3})(m));
-        end
-        R{end+1} = sprintf('  %-8s %-9s %9.2f %9.2f %9.2f %9.2f   %d', configs{k}, cases{c, 1}, a(c, :), nn(c)); %#ok<AGROW>
-    end
-    R{end+1} = sprintf('  %-8s %-9s %+9.2f %+9.2f %+9.2f %+9.2f', configs{k}, 'change', a(2, :) - a(1, :)); %#ok<AGROW>
-end
-mf = strcmp(T.config, fin) & ~hasError;
-idx = find(mf & isDouble);
-R{end+1} = '';
-R{end+1} = sprintf('  Every double walk, setting %s (per-walk %% error; steps are counts):', fin);
-R{end+1} = sprintf('  %-10s %7s %7s %10s %14s %14s', 'walk', 'gt stp', 'est stp', 'speed %', 'strideDur %', 'strideLen %');
-for a = 1:numel(idx)
-    i = idx(a);
-    R{end+1} = sprintf('  %-10s %7d %7d %+10.1f %+14.1f %+14.1f', strrep(T.wav_file{i}, '.wav', ''), T.gtStepCount(i), T.estStepCount(i), ...
-        100 * (T.estSpeed_mps(i) / T.gtSpeed_video_mps(i) - 1), 100 * (T.estStrideDuration_mean_s(i) / T.gtStrideDuration_s(i) - 1), ...
-        100 * (T.estStrideLength_mean_m(i) / T.gtStrideLength_m(i) - 1)); %#ok<AGROW>
-end
-aS = zeros(1, nP);
-aA = zeros(1, nP);
-for p = 1:nP
-    aS(p) = accuracyOf(T.(params{p, 2})(mf & ~isDouble), T.(params{p, 3})(mf & ~isDouble));
-    aA(p) = accuracyOf(T.(params{p, 2})(mf), T.(params{p, 3})(mf));
-end
-R{end+1} = '';
-for p = 1:nP
-    d = aA(p) - aS(p);
-    if abs(d) < 0.3
-        w = 'hardly changes';
-    elseif d < 0
-        w = 'lowers';
-    else
-        w = 'raises';
-    end
-    R{end+1} = sprintf('  %-16s including the %d double walks %s the accuracy (%.2f -> %.2f, %+.2f points).', params{p, 1}, sum(isDouble(mf)), w, aS(p), aA(p), d); %#ok<AGROW>
-end
-end
-
-function drawDoubleWalkFigure(T, configs, params, isDouble, hasError, cfg, outDir)
-fin = configs{end};
-mf = strcmp(T.config, fin) & ~hasError;
-nP = size(params, 1);
-fig = figure('Visible', 'off', 'Position', [100 100 1200 800]);
-for p = 1:nP
-    subplot(2, 2, p);
-    hold on;
-    est = T.(params{p, 2});
-    gt = T.(params{p, 3});
-    e = 100 * (est - gt) ./ gt;
-    x = T.gtSpeed_video_mps;
-    if p == 2
-        e = est - gt;                                    % step count: extra steps, not %
-    end
-    s = mf & ~isDouble & isfinite(e);
-    d = mf & isDouble & isfinite(e);
-    plot(x(s), e(s), 'o', 'Color', [0.45 0.45 0.45], 'MarkerSize', 6);
-    plot(x(d), e(d), 's', 'MarkerFaceColor', [0.80 0.20 0.20], 'MarkerEdgeColor', [0.5 0.1 0.1], 'MarkerSize', 10);
-    idd = find(d);
-    for a = 1:numel(idd)
-        text(x(idd(a)) + 0.01, e(idd(a)), strrep(strrep(T.wav_file{idd(a)}, '.wav', ''), '_', '\_'), 'FontSize', 10);
-    end
-    plot([min(x(mf)) max(x(mf))], [0 0], 'k-');
-    if p ~= 2
-        plot([min(x(mf)) max(x(mf))], [10 10], 'k--');
-        plot([min(x(mf)) max(x(mf))], [-10 -10], 'k--');
-        ylabel('Error (%)');
-    else
-        ylabel('Extra steps (+) or missed (-)');
-    end
-    xlabel('Reference walking speed (m/s)');
-    aS = accuracyOf(est(mf & ~isDouble), gt(mf & ~isDouble));
-    aA = accuracyOf(est(mf), gt(mf));
-    title(sprintf('%s: single %.1f%%, with doubles %.1f%%', params{p, 1}, aS, aA), 'FontSize', 13);
-    set(gca, 'FontSize', 12);
-    grid on;
-end
-saveas(fig, fullfile(outDir, 'Fig_DoubleWalks.png'));
-close(fig);
 end
 
 function R = sensitivitySection(T, fin, inMain, hasError)
@@ -957,4 +848,17 @@ if all(ismember({'wav_total_samples','wav_sample_rate_Hz'}, G.Properties.Variabl
     end
 end
 fprintf('Report results: %s\nWAV references: %s\n', resultsFolder, groundTruthFile);
+end
+
+
+function T = keepSinglePassRows(T)
+keep = strcmpi(strtrim(T.walkType), 'Single pass');
+assert(any(keep), 'Summary:NoSinglePassWalks', 'No single-pass results were found.');
+fields = fieldnames(T);
+for k = 1:numel(fields)
+    column = T.(fields{k});
+    if (isnumeric(column) || islogical(column) || iscell(column)) && numel(column) == numel(keep)
+        T.(fields{k}) = column(keep);
+    end
+end
 end
