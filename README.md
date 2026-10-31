@@ -31,22 +31,6 @@ Use MATLAB with Signal Processing Toolbox. The measured example was tested in MA
 
 The standalone `Finding_...` scripts and individual sweeps were used for separate tests. They are not the sequence called by `Run_Measured_Demo`.
 
-## Simulator checks
-
-```matlab
-addpath('Radar Simulator')
-Verify_Radar_Simulator
-```
-
-This checks segment Doppler, torso phase and noise power.
-
-```matlab
-addpath('Extraction Algorithms on Simulated Data')
-Verify_Simulated_Extraction(struct('Quick',true))
-```
-
-Quick mode uses two speeds and fewer noise draws. Run `Verify_Simulated_Extraction` without an argument for the full sweep. Results are saved under `Results`.
-
 ## Saved measured results
 
 ```matlab
@@ -54,7 +38,7 @@ addpath('Extraction Algorithms on Measured Data')
 RealData_Summary_v7
 ```
 
-This reads the saved estimates for the full dataset and writes the summary tables. It does not need the remaining WAV files. The main results use 142 single passes, with six double walks analysed separately. Some diagnostic plots need additional saved inputs.
+This reads the saved estimates for the full dataset and writes the summary tables. It does not need the remaining WAV files. The results cover 142 single-pass walks. Some diagnostic plots need additional saved inputs.
 
 The same folder also contains:
 
@@ -69,3 +53,7 @@ The same folder also contains:
 ## Parameter settings
 
 `Measured_Final_Parameters.csv` and `Simulated_Final_Parameters.csv` are in their respective algorithm folders. The experiment drivers use the input versions in `Report Sources`. `Zahraa_Spectrogram.m` is included in each code folder.
+
+## Other experiments
+
+The simulator and extraction checks are described in [Simulation experiments](<Extraction Algorithms on Simulated Data/Report_Script_Map.md>). These are separate from the ten-recording example.
