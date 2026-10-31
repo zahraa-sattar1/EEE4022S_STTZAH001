@@ -22,7 +22,7 @@ end
 T = readCsvStruct(fullfile(cfg.ResultsFolder, 'Results_AllConfigs.csv'));
 T = applyGroundTruth(T, cfg.GroundTruthFile);
 hasError = ~cellfun(@isempty, T.errorMsg);
-isDouble = strcmpi(strtrim(T.walkType), 'Double');
+singlePass = strcmpi(strtrim(T.walkType), 'Single pass');
 configs = uniqueStable(T.config);
 fin = configs{end};                                       % the Final setting is the last one the runner wrote
 [~, gtName] = fileparts(cfg.GroundTruthFile);
@@ -38,7 +38,7 @@ params = {'Walking speed', 'estSpeed_mps', 'gtSpeed_video_mps'; ...
 nP = size(params, 1);
 
 %% The walks that are split (one row per walk, taken from the Final rows)
-rows = find(strcmp(T.config, fin) & ~hasError & ~isDouble);
+rows = find(strcmp(T.config, fin) & ~hasError & singlePass);
 wav = T.wav_file(rows);
 part = T.participant(rows);
 pace = 1 + (T.gtSpeed_video_mps(rows) >= cfg.PaceEdges_mps(1)) + (T.gtSpeed_video_mps(rows) >= cfg.PaceEdges_mps(2)) + (T.gtSpeed_video_mps(rows) >= cfg.PaceEdges_mps(3));
